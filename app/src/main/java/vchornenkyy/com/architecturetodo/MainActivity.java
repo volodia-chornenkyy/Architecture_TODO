@@ -65,6 +65,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mSignInButton.setOnClickListener(this);
 
         configureSignIn();
+        findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                googleAuthHelper.signOut(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                        status.getStatus();
+                    }
+                });
+            }
+        });
 
         mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
 
