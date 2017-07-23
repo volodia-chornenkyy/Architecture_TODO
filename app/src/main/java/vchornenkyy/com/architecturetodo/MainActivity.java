@@ -3,23 +3,16 @@ package vchornenkyy.com.architecturetodo;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -49,49 +42,34 @@ public class MainActivity extends AppCompatActivity {
 
         Firebase.setAndroidContext(this);
 
-        findViewById(R.id.login_with_google).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (new Utils(MainActivity.this).isNetworkAvailable()) {
-                    googleAuthHelper.signIn();
-                } else {
-                    Toast.makeText(MainActivity.this, "Oops! no internet connection!", Toast.LENGTH_SHORT).show();
-                }
+        findViewById(R.id.login_with_google).setOnClickListener(view -> {
+            if (new Utils(MainActivity.this).isNetworkAvailable()) {
+                googleAuthHelper.signIn();
+            } else {
+                Toast.makeText(MainActivity.this, "Oops! no internet connection!", Toast.LENGTH_SHORT).show();
             }
         });
 
-        findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                googleAuthHelper.signOut(new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        status.getStatus();
-                    }
-                });
-            }
-        });
+        findViewById(R.id.logout).setOnClickListener(view ->
+                googleAuthHelper.signOut(Status::getStatus));
 
         googleAuthHelper = new GoogleAuthHelper(this);
 
         mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
 
         //this is where we start the Auth state Listener to listen for whether the user is signed in or not
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                // Get signedIn user
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+        mAuthListener = firebaseAuth -> {
+            // Get signedIn user
+            FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                //if user is signed in, we call a helper method to save the user details to Firebase
-                if (user != null) {
-                    // User is signed in
-                    createUserInFirebaseHelper("email", "name", "photo");
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
+            //if user is signed in, we call a helper method to save the user details to Firebase
+            if (user != null) {
+                // User is signed in
+                createUserInFirebaseHelper("email", "name", "photo");
+                Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+            } else {
+                // User is signed out
+                Log.d(TAG, "onAuthStateChanged:signed_out");
             }
         };
     }
@@ -99,30 +77,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        googleAuthHelper.onActivityResult(requestCode, resultCode, data, new Action<GoogleSignInAccount>() {
-            @Override
-            public void call(GoogleSignInAccount account) {
-                idToken = account.getIdToken();
+        googleAuthHelper.onActivityResult(requestCode, resultCode, data, account -> {
+            idToken = account.getIdToken();
 
-                name = account.getDisplayName();
-                email = account.getEmail();
-                photoUri = account.getPhotoUrl();
-                photo = photoUri.toString();
+            name = account.getDisplayName();
+            email = account.getEmail();
+            photoUri = account.getPhotoUrl();
+            photo = photoUri.toString();
 
-                // Save Data to SharedPreference
-//                sharedPrefManager = new SharedPrefManager(mContext);
-//                sharedPrefManager.saveIsLoggedIn(mContext, true);
-//
-//                sharedPrefManager.saveEmail(mContext, email);
-//                sharedPrefManager.saveName(mContext, name);
-//                sharedPrefManager.savePhoto(mContext, photo);
-//
-//                sharedPrefManager.saveToken(mContext, idToken);
-                //sharedPrefManager.saveIsLoggedIn(mContext, true);
+            // Save Data to SharedPreference
+            MainActivity context = MainActivity.this;
+            SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
+            sharedPrefManager.saveIsLoggedIn(context, true);
 
-                AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-                firebaseAuthWithGoogle(credential);
-            }
+            sharedPrefManager.saveEmail(context, email);
+            sharedPrefManager.saveName(context, name);
+            sharedPrefManager.savePhoto(context, photo);
+
+            sharedPrefManager.saveToken(context, idToken);
+            //sharedPrefManager.saveIsLoggedIn(mContext, true);
+
+            AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+            firebaseAuthWithGoogle(credential);
         });
     }
 
@@ -178,22 +154,19 @@ public class MainActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(AuthCredential credential) {
 //        showProgressDialog();
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential" + task.getException().getMessage());
-                            task.getException().printStackTrace();
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            createUserInFirebaseHelper("email", "name", "photo");
-                            Toast.makeText(MainActivity.this, "Login successful",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-//                        hideProgressDialog();
+                .addOnCompleteListener(this, task -> {
+                    Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "signInWithCredential" + task.getException().getMessage());
+                        task.getException().printStackTrace();
+                        Toast.makeText(MainActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        createUserInFirebaseHelper("email", "name", "photo");
+                        Toast.makeText(MainActivity.this, "Login successful",
+                                Toast.LENGTH_SHORT).show();
                     }
+//                        hideProgressDialog();
                 });
     }
 
