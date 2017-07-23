@@ -65,8 +65,8 @@ public class FirebaseAuthHelper {
         }
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data, Action<User> successAction) {
-        googleAuthHelper.onActivityResult(requestCode, resultCode, data, account -> {
+    public void onActivityResult(int requestCode, int resultCode, IntentWrapper data, Action<User> successAction) {
+        googleAuthHelper.onActivityResult(requestCode, resultCode, data.getIntent(), account -> {
             idToken = account.getIdToken();
 
             name = account.getDisplayName();

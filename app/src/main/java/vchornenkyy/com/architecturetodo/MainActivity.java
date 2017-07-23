@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        firebaseAuthHelper.onActivityResult(requestCode, resultCode, data,
+        firebaseAuthHelper.onActivityResult(requestCode, resultCode, new IntentWrapper(data),
                 user -> Toast.makeText(MainActivity.this, "Login successful:" + user.getEmail(), Toast.LENGTH_LONG).show());
     }
 
