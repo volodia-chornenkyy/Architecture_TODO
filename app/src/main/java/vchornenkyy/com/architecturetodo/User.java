@@ -1,6 +1,7 @@
 package vchornenkyy.com.architecturetodo;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class User {
 
@@ -9,7 +10,7 @@ public class User {
     private String email;
     private HashMap<String,Object> timestampJoined;
 
-    public User() {
+    public User(String name, String photo, String mEmail, Map<String, String> timestamp) {
     }
 
     /**

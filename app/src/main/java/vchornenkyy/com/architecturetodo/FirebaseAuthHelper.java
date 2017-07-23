@@ -2,19 +2,15 @@ package vchornenkyy.com.architecturetodo;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.ServerValue;
-
-import java.util.HashMap;
 
 public class FirebaseAuthHelper {
 
@@ -31,12 +27,12 @@ public class FirebaseAuthHelper {
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     public FirebaseAuthHelper(FragmentActivity fragmentActivity) {
-        this(fragmentActivity, new GoogleAuthHelper(fragmentActivity));
+        this(new GoogleAuthHelper(fragmentActivity));
 
         mAuth = FirebaseAuth.getInstance();
     }
 
-    public FirebaseAuthHelper(FragmentActivity fragmentActivity, GoogleAuthHelper googleAuthHelper) {
+    public FirebaseAuthHelper(GoogleAuthHelper googleAuthHelper) {
         this.googleAuthHelper = googleAuthHelper;
 
         //this is where we start the Auth state Listener to listen for whether the user is signed in or not
@@ -78,11 +74,7 @@ public class FirebaseAuthHelper {
             photoUri = account.getPhotoUrl();
             photo = photoUri.toString();
 
-            /* Set raw version of date to the ServerValue.TIMESTAMP value and save into dateCreatedMap */
-            HashMap<String, Object> timestampJoined = new HashMap<>();
-            timestampJoined.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
-
-            User newUser = new User(name, photo, Utils.encodeEmail(email.toLowerCase()), timestampJoined);
+            User newUser = new User(name, photo, Utils.encodeEmail(email.toLowerCase()), ServerValue.TIMESTAMP);
 
             AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
             mAuth.signInWithCredential(credential)
@@ -106,11 +98,6 @@ public class FirebaseAuthHelper {
     }
 
     public void signOut(Action<Status> result) {
-        googleAuthHelper.signOut(new ResultCallback<Status>() {
-            @Override
-            public void onResult(@NonNull Status status) {
-                result.call(status);
-            }
-        });
+        googleAuthHelper.signOut(result::call);
     }
 }
