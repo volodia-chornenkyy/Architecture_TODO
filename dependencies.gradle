@@ -1,0 +1,9 @@
+ext.addArchLyfecycleComponents = {
+    version = '1.0.0-alpha5'
+
+    dependencies {
+        compile "android.arch.lifecycle:runtime:${version}"
+        compile "android.arch.lifecycle:extensions:${version}"
+        annotationProcessor "android.arch.lifecycle:compiler:${version}"
+    }
+}
