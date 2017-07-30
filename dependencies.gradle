@@ -7,3 +7,14 @@ ext.addArchLyfecycleComponents = {
         annotationProcessor "android.arch.lifecycle:compiler:${version}"
     }
 }
+
+ext.addFirebaseComponents = {
+    version = '11.0.2'
+
+    ext.auth = {
+        dependencies {
+            implementation "com.google.firebase:firebase-auth:$version"
+            implementation "com.google.android.gms:play-services-auth:$version"
+        }
+    }
+}
