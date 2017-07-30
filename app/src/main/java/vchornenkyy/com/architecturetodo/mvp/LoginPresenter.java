@@ -1,9 +1,9 @@
 package vchornenkyy.com.architecturetodo.mvp;
 
 
-import vchornenkyy.com.architecturetodo.FirebaseAuthHelper;
-import vchornenkyy.com.architecturetodo.IntentWrapper;
-import vchornenkyy.com.architecturetodo.Utils;
+import vchornenkyy.com.core.FirebaseAuthHelper;
+import vchornenkyy.com.core.IntentWrapper;
+import vchornenkyy.com.core.Utils;
 
 public class LoginPresenter {
 

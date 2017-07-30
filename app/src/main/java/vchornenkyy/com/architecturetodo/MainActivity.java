@@ -7,6 +7,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 
+import vchornenkyy.com.core.FirebaseAuthHelper;
+import vchornenkyy.com.core.IntentWrapper;
+import vchornenkyy.com.core.Utils;
+
 // This class handles Google Firebase Authentication and also saves the user details to Firebase
 public class MainActivity extends AppCompatActivity {
 

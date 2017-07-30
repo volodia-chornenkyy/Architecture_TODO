@@ -1,4 +1,4 @@
-package vchornenkyy.com.architecturetodo;
+package vchornenkyy.com.core;
 
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;

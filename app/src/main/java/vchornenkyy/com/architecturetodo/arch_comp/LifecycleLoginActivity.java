@@ -2,17 +2,15 @@ package vchornenkyy.com.architecturetodo.arch_comp;
 
 import android.arch.lifecycle.LifecycleActivity;
 import android.arch.lifecycle.LifecycleRegistry;
-import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 
-import vchornenkyy.com.architecturetodo.IntentWrapper;
 import vchornenkyy.com.architecturetodo.R;
-import vchornenkyy.com.architecturetodo.Utils;
+import vchornenkyy.com.core.IntentWrapper;
+import vchornenkyy.com.core.Utils;
 
 public class LifecycleLoginActivity extends LifecycleActivity {
 //public class LifecycleLoginActivity extends AppCompatActivity implements LifecycleRegistryOwner {

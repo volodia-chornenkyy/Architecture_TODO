@@ -1,4 +1,4 @@
-package vchornenkyy.com.architecturetodo;
+package vchornenkyy.com.core;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

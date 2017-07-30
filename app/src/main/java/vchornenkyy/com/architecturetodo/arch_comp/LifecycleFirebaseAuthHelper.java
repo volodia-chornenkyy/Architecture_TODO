@@ -5,8 +5,8 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.support.v4.app.FragmentActivity;
 
-import vchornenkyy.com.architecturetodo.FirebaseAuthHelper;
-import vchornenkyy.com.architecturetodo.GoogleAuthHelper;
+import vchornenkyy.com.core.FirebaseAuthHelper;
+import vchornenkyy.com.core.GoogleAuthHelper;
 
 public class LifecycleFirebaseAuthHelper extends FirebaseAuthHelper implements LifecycleObserver {
 

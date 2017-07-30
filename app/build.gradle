@@ -27,6 +27,7 @@ android {
 }
 
 dependencies {
+    compile project(path: ':core')
     addSupportComponents().appcompat()
     addFirebaseComponents().auth()
     addArchLyfecycleComponents()

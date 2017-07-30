@@ -1,4 +1,4 @@
-package vchornenkyy.com.architecturetodo;
+package vchornenkyy.com.core;
 
 public class User {
 

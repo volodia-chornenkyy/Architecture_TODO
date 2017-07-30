@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import vchornenkyy.com.architecturetodo.FirebaseAuthHelper;
-import vchornenkyy.com.architecturetodo.IntentWrapper;
 import vchornenkyy.com.architecturetodo.R;
-import vchornenkyy.com.architecturetodo.Utils;
+import vchornenkyy.com.core.FirebaseAuthHelper;
+import vchornenkyy.com.core.IntentWrapper;
+import vchornenkyy.com.core.Utils;
 
 public class MvpLoginActivity extends AppCompatActivity implements LoginPresenter.View {
 
