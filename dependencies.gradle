@@ -18,3 +18,13 @@ ext.addFirebaseComponents = {
         }
     }
 }
+
+ext.addSupportComponents = {
+    version = '25.4.0'
+
+    ext.appcompat = {
+        dependencies {
+            implementation "com.android.support:appcompat-v7:$version"
+        }
+    }
+}
