@@ -1,16 +1,13 @@
 package vchornenkyy.com.architecturetodo;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class User {
 
     private String fullName;
     private String photo;
     private String email;
-    private HashMap<String,Object> timestampJoined;
+    private long timestampJoined;
 
-    public User(String name, String photo, String mEmail, Map<String, String> timestamp) {
+    public User() {
     }
 
     /**
@@ -19,7 +16,7 @@ public class User {
      *
      * @param timestampJoined
      */
-    public User(String mFullName, String mPhoneNo, String mEmail, HashMap<String, Object> timestampJoined) {
+    public User(String mFullName, String mPhoneNo, String mEmail, long timestampJoined) {
         this.fullName = mFullName;
         this.photo = mPhoneNo;
         this.email = mEmail;
@@ -39,7 +36,7 @@ public class User {
         return email;
     }
 
-    public HashMap<String, Object> getTimestampJoined() {
+    public long getTimestampJoined() {
         return timestampJoined;
     }
 }

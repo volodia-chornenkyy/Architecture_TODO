@@ -1,6 +1,5 @@
 package vchornenkyy.com.architecturetodo;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -10,7 +9,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.ServerValue;
+
+import java.util.Date;
 
 public class FirebaseAuthHelper {
 
@@ -74,7 +74,7 @@ public class FirebaseAuthHelper {
             photoUri = account.getPhotoUrl();
             photo = photoUri.toString();
 
-            User newUser = new User(name, photo, Utils.encodeEmail(email.toLowerCase()), ServerValue.TIMESTAMP);
+            User newUser = new User(name, photo, Utils.encodeEmail(email.toLowerCase()), new Date().getTime());
 
             AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
             mAuth.signInWithCredential(credential)
