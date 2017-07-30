@@ -1,56 +1,54 @@
-package vchornenkyy.com.architecturetodo;
+package vchornenkyy.com.todo.lifecycle;
 
+import android.arch.lifecycle.LifecycleActivity;
+import android.arch.lifecycle.LifecycleRegistry;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 
-import vchornenkyy.com.core.FirebaseAuthHelper;
 import vchornenkyy.com.core.IntentWrapper;
 import vchornenkyy.com.core.Utils;
 
-// This class handles Google Firebase Authentication and also saves the user details to Firebase
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends LifecycleActivity {
+//public class LoginActivity extends AppCompatActivity implements LifecycleRegistryOwner {
 
-    private FirebaseAuthHelper firebaseAuthHelper;
+    private LifecycleFirebaseAuthHelper firebaseAuthHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        firebaseAuthHelper = new FirebaseAuthHelper(this);
+        firebaseAuthHelper = new LifecycleFirebaseAuthHelper(this);
 
         findViewById(R.id.login_with_google).setOnClickListener(view -> {
-            if (new Utils(MainActivity.this).isNetworkAvailable()) {
+            if (new Utils(LoginActivity.this).isNetworkAvailable()) {
                 firebaseAuthHelper.signIn();
             } else {
-                Toast.makeText(MainActivity.this, "Oops! no internet connection!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Oops! no internet connection!", Toast.LENGTH_SHORT).show();
             }
         });
 
         findViewById(R.id.logout).setOnClickListener(view ->
                 firebaseAuthHelper.signOut(Status::getStatus));
+
+        getLifecycle().addObserver(firebaseAuthHelper);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         firebaseAuthHelper.onActivityResult(requestCode, resultCode, new IntentWrapper(data),
-                user -> Toast.makeText(MainActivity.this, "Login successful:" + user.getEmail(), Toast.LENGTH_LONG).show());
+                user -> Toast.makeText(LoginActivity.this, "Login successful:" + user.getEmail(), Toast.LENGTH_LONG).show());
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        firebaseAuthHelper.bind();
-    }
+
+    LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        firebaseAuthHelper.unbind();
+    public LifecycleRegistry getLifecycle() {
+        return lifecycleRegistry;
     }
 }

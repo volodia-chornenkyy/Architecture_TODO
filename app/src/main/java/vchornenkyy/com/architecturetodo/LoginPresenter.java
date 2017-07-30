@@ -1,4 +1,4 @@
-package vchornenkyy.com.architecturetodo.mvp;
+package vchornenkyy.com.architecturetodo;
 
 
 import vchornenkyy.com.core.FirebaseAuthHelper;

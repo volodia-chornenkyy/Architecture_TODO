@@ -1,4 +1,4 @@
-package vchornenkyy.com.architecturetodo.arch_comp;
+package vchornenkyy.com.todo.lifecycle;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;

@@ -1,16 +1,15 @@
-package vchornenkyy.com.architecturetodo.mvp;
+package vchornenkyy.com.architecturetodo;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import vchornenkyy.com.architecturetodo.R;
 import vchornenkyy.com.core.FirebaseAuthHelper;
 import vchornenkyy.com.core.IntentWrapper;
 import vchornenkyy.com.core.Utils;
 
-public class MvpLoginActivity extends AppCompatActivity implements LoginPresenter.View {
+public class LoginActivity extends AppCompatActivity implements LoginPresenter.View {
 
     private LoginPresenter loginPresenter;
 
@@ -50,6 +49,6 @@ public class MvpLoginActivity extends AppCompatActivity implements LoginPresente
 
     @Override
     public void showMessage(String message) {
-        Toast.makeText(MvpLoginActivity.this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 }
